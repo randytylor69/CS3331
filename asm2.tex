@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{parskip} % remove global indent
+\usepackage{float} % Add to your preamble
+
+\begin{document}
+
+
+\section*{Question 1}
+
+% --------------------------------- QUESTION 
+\subsection*{1.a}
+
+The accepted string in $L$ should be simplified first. Observe that since $w=(aba)^x$ for any $x \geq 0$, we can rewrite $w^R$ as:
+
+$$w^R \equiv ((aba)^x)^R \equiv ((aba)^R)^x) \equiv (aba)^x \equiv w$$
+
+And $L$ can be modified to:
+
+$$L = \{www | w \in (aba)^*\}$$
+$$L = \{w^3 | w \in (aba)^*\}$$
+
+Assume $L$ is regular, then there exists a pumping length $k$ for $L$. Let's choose $s = (aba)^{3k}$, $|s| \geq k$; $s \in L$ since $(aba)^{3k} \equiv ((aba)^{k})^3 \in L$.
+
+Observe all decompositions of $w=xyz$ such that $|x| \leq k$ and $|y| \geq 1$:
+
+\begin{align*}
+&x=(aba)^n, \: n \geq 0\\
+&y=(aba)^{3m}, \: m\geq1, \: n+m \leq k\\
+&z=(aba)^{3k-3m-n}
+\end{align*}
+
+Choose $q$ such that $xy^qz \not\in L:$
+
+$$s = xy^qz = (aba)^n(aba)^{3mq}(aba)^{3k-3m-n} = (aba)^{3(k+m(q-1))}$$
+
+Note that $s \in L, \: \forall q\geq0$. This is because regardless of $q$'s value, $aba$ will always be multiplied by a multiple of 3 in the end, due to the presence of 3 on one side of the multiplication of $aba$'s exponent, meaning $aba$'s exponent will always be a multiple of 3. The Pumping Lemma does work here, in fact we can derive the regular expression for $L$ since it is regular:
+
+$$L = (abaabaaba)^*$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
