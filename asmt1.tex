@@ -1,0 +1,285 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{parskip} % remove global indent
+\usepackage{float} % Add to your preamble
+
+\begin{document}
+
+
+\section*{Question 1}
+
+% --------------------------------- QUESTION 
+\subsection*{1.a}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.15\linewidth]{s.png}
+    \caption{Minimal DFA for 1.a}
+    \label{fig:placeholder}
+\end{figure}
+
+The regular expression is: $(a | b)^*$
+
+Since $x, y \in \{a,b\}^*$ represents zero or more occurrences of $x$ and $y$, every string in $\{a, b\}^*$ satisfies the regular expression and is accepted by the DFA. The DFA is minimal because the only equivalence relation $\equiv_0$ contains only one class $\{q_0\}$, which is the only DFA element.
+
+% --------------------------------- QUESTION 
+\subsection*{1.b}
+
+The minimal DFA can be constructed directly from the language:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{f.png}
+    \label{fig:placeholder}
+\end{figure}
+
+Above DFA is minimal. We can proof this by forming the equivalence relations ($p$ symbol is dropped; only suffix is kept for simplicity, same is true for the rest of the questions): 
+
+$\equiv_0$: $\{0,1,2,4,6,7,10\}\{3\}$
+
+$\equiv_1$: $\{0,1,6,7,10\}\{3\}\{2,4\}$
+
+$\equiv_2$: $\{0,6,10\} \{3\} \{1\} \{7\} \{2,4\}$
+
+$\equiv_3$: $\{0\}\{6\}\{10\} \{3\} \{1\} \{7\} \{2\}\{4\}$
+
+Since the number of distinct sets in $\equiv_3$ is equal to the number of DFA states above, the DFA is minimal.
+
+Using state elimination method to obtain the regular expression:
+
+$$(aba \space \cup \space ababa \space \cup \space aba\sum^*aba)$$
+
+% -------------------------------------------------------------------- QUESTION 
+\subsection*{1.c}
+
+The minimal DFA can be constructed directly from the language:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{df.png}
+    \label{fig:placeholder}
+\end{figure}
+
+We can construct the equivalence relations below. Since the 4-equivalence class has equal number of distinct members as the DFA states, the DFA is minimal:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{ads.png}
+    \label{fig:placeholder}
+\end{figure}
+
+Using state elimination method, the regular expression of this language becomes:
+
+$$(a\cup ba)a^*(ba)(a\cup ba)^*(b\cup \epsilon)$$
+
+% -------------------------------------------------------------------- QUESTION 
+\subsection*{1.d}
+
+It's trivial to directly derive its minimal DFA:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{fq.png}
+    \label{fig:placeholder}
+\end{figure}
+
+Proof its minimality with the equivalence classes Below. Since the number of distinct sets in 2-equivalence is equal to the number of states in the DFA above, the DFA is minimal:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{imagqe.png}
+    \label{fig:placeholder}
+\end{figure}
+
+The regex can be obtained via state elimination:
+
+$$(aa\cup bb\cup abb\cup baa\cup ((bab\cup aba)(a\cup b)))(a\cup b)^*$$
+
+% -------------------------------------------------------------------- QUESTION 
+\subsection*{1.e}
+
+$L$ is nonregular. Proof: assume $L$ is regular, then there exists integer $p$ as the pumping length for the Pumping Lemma. Suppose there exists string $w=b^pab^pab^pa$ and $w \in L$ since $(b^pa)$ occurs as a substring exactly in the middle of 2 identical $(b^pa)$'s, such that the pumping lemma is true. Then $w$ can de-composite into $xyz$ satisfying the following 3 conditions:
+
+1. $|xy| \leq p$
+
+2. $|y| \geq 1$
+
+3. $(\forall i \geq 1)(xy^iz \in L)$
+
+For the 1st and the 2nd condition, we can represent $x, y,z$ in terms of a or b:
+
+\[x=b^{\alpha} \:\text{for some $\alpha \geq 0$}\]
+$$y=b^{\beta}\: \text{for some $\beta \geq 1$}$$
+$$ z=b^{p-\alpha-\beta}ab^pab^pa $$
+
+Which yields an accepted string for the 3rd condition, now that we have xyz represented by valid letters in $L$:
+
+$$ xy^iz=b^{\alpha}b^{i\beta}b^{p-\alpha-\beta}ab^pab^pa \equiv b^{p+i\beta-\beta}ab^pab^pa$$
+
+In order to satisfy ${xy^iz = w}$, this must be true: $p+i\beta-\beta = p$, which forces $i\beta-\beta =0$ and consequently $i=0$ (we can do this because $\beta \geq 1$). But since the earlier statements indicate $i, \beta\geq 1$, any number of $i$ we pick will form a contradiction within the Pumping Lemma, so $xy^iz \not\in L$ and $L$ cannot be regular.
+
+% -------------------------------------------------------------------- QUESTION 
+\subsection*{1.f}
+
+If we represent $\#_a(w)$ as $x$, $\#_b(w)$ as $y$, we can rewrite the accepting condition of language $L$ in two separate cases:
+
+$$x + y + (x-y) = 2x \: \text{, if x $\geq y$}$$
+$$x + y + (y-x) = 2y \: \text{, if y $\geq x$}$$
+
+Simplification of both cases lead to $1=1$, which indicate that the validity of each case has no connection to the number of $x$ or $y$ present in the accepting conditions, hence we can conclude that the number of $a$ or $b$ present in $w$ will not interfere with the acceptance of the word. So, any string from $L$'s alphabet $\sum$ will be accepted, leading to the 1 state minimal DFA:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.15\linewidth]{s.png}
+    \caption{Minimal DFA for 1.f}
+    \label{fig:placeholder}
+\end{figure}
+
+The regular expression of this DFA is then the enumeration of the Kleene star over the alphabet, which is simply $(a|b)^*$.
+
+% -------------------------------------------------------------------- QUESTION 
+\subsection*{1.g}
+
+$L$ is nonregular. Proof: assume $L$ is regular, so there must exist integer $p$ as the pumping length for the $Pumping Lemma$ for $L$. Suppose there exists string $w=0^p100^p1$ and $w \in L$ because $|w|$ is odd ($|2\times0^p|$ is even, 3 letters left, even + odd = odd) and the middle symbol of $w$ is 0. The Pumping Lemma is true in this case, then $w$ can de-composite into $xyz$ satisfying the following 3 conditions:
+
+1. $|xy| \leq p$
+
+2. $|y| \geq 1$
+
+3. $(\forall i \geq 1)(xy^iz \in L)$
+
+We can represent $x,y,z$ in terms of 0 or 1:
+
+$$x=0^\alpha \:\text{where $\alpha\geq0$ }$$
+$$y=0^\beta \:\text{where $\beta\geq1$ }$$
+$$z=0^{p-\alpha-\beta}100^p1$$
+
+Which yields an equation that satisfies the 3rd condition:
+
+$$xy^iz = 0^\alpha0^{i\beta}0^{p-\alpha-\beta}100^p1 \equiv 0^{p+i\beta - \beta}100^p1$$
+
+In order to satisfy ${xy^iz = w}$, this must be true: $p+i\beta-\beta = p$, which forces $i\beta-\beta =0$ and consequently $i=0$ (we can do this because $\beta \geq 1$). But since the earlier statements indicate $i, \beta\geq 1$, any number of $i$ we pick will form a contradiction within the Pumping Lemma, so $xy^iz \not\in L$ and $L$ cannot be regular.
+
+\section*{Question 2}
+
+% --------------------------------- QUESTION 
+\subsection*{2.a}
+
+For pattern matching (i), construct the minimal DFA for $L(\sum^*(ab\cup ba)\sum^*)$:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{cc.png}
+    \label{fig:placeholder}
+\end{figure}
+
+The DFA is minimal because the the number of distinct sets in its 2-equivalence class is equal to the number of states present in the DFA:
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{ca.png}
+    \label{fig:placeholder}
+\end{figure}
+
+For pattern searching (ii), construct the minimal DFA for $L(\sum^*(ab\cup ba))$:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{aq.png}
+    \label{fig:placeholder}
+\end{figure}
+
+The DFA is minimal because the number of distinct sets in its 1-equivalence class is equal to thhe number of states present in the DFA:
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{tg.png}
+    \label{fig:placeholder}
+\end{figure}
+
+% --------------------------------- QUESTION 
+\subsection*{2.b}
+
+The equivalence classes of the matching case is described using regex to go from the initial state $q_1$ to the equivalence class state:
+
+- Regex to get $q_1$: $\epsilon$ (it's the initial state)
+
+- Regex to get $q_2$: $aa^*$
+
+- Regex to get $q_3$: $bb^*$
+
+- Regex to get $q_4$: $(a \cup b)^*(ab\cup ba)(a \cup b)^*$
+
+% --------------------------------- QUESTION 
+\subsection*{2.c}
+
+For (i), observe $u=aba, v=abb$, such that:
+
+- In $L_m$, both strings land in the accepting state $q_4$
+
+- In $L_s$, $u$ land in the accepting state $q_4$, $v$ land in the non-accepting state $q_3$
+
+For (ii), observe $u=bbb, v=aabbbb$, such that:
+
+- In $L_m$, $u$ land in the non-accepting state $q_3$, $v$ land in the accepting state $q_4$
+
+- In $L_s$, both strings land in the non-accepting state $q_3$. For any $z \in \sum^*$, $uz \in L_s \iff vz \in L_s$, which satisfies the equivalence relation for the searching DFA, hence they are equal
+
+% --------------------------------- QUESTION 
+\subsection*{2.d}
+
+For the general non-empty pattern $p$, we can construct general non-arbitrary languages for both matching and searching patterns:
+
+- $L_m = L(\sum^*p\sum^*)$
+
+- $L_s = L(\sum^*p)$
+
+Since $u \not\equiv_{L_m} v$, the 2 strings $u$ and $v$ must be in separate equivalence classes of $L_m$, meaning one must be accepted and the other not not accepted. Since $L_m$ only accepts strings with substring $p$ to match the pattern, one of $(u, v)$ must contain $p$ as substring, and the other not contain it. 
+
+Let's assume that $u$ does not contain $p$ but $v$ does, which means that $u$ must be the repetition of any singular letter in $\sum$, else it would match $p$ and be accepted (i.e. $u=ab$ is accepted, but $u=bb$ isn't). This letter can be represented by $k$ and and is repeated $t$ times. 
+
+We can simply set $v$ to $p$ and append $u$ as a suffix of $v$, this makes sure that neither strings are accepted by $L_s$:
+
+ $$u = k^t$$
+ $$v = pu$$
+ 
+Since $L_s$ only checks the final $|P|$ letters of the incoming string, $u$ has to be at least $|p|$ letters long in order to be rejected, ergo $v$ must be rejected. So $k$ must be repeated at least $|p|$ times. Additionally, $k$ must also be the different letter than the first letter of $p$, in order for $v$ to be safely rejected.
+ 
+Finally we have the universal strings $u, v$ to satisfy the equivalence requirements:
+
+ $$u = k^t, \: \text{$k$ != first letter of $p$,} \: t \geq |p|$$
+ $$v = pu$$
+
+ \section*{Question 3}
+ 
+% --------------------------------- QUESTION 
+\subsection*{3.a}
+
+1. Build FSM $M_1, M_2$ that accept $L_1$ and $L_2$ respectively, since $L_1$ and $L_2$ are regular languages.
+
+2. Build FSM $M_3$ for the first given condition, such that $L(M_3) = L_2\sum^*$ (regular languages are closed under concatenation).
+
+3. Build FSM $M_4$ for part of the second given condition, such that $L(M_4) = \sum^*L_2L_2^*$ (regular languages are closed under Kleene star).
+
+4. Build FSM $M_5$ such that $L(M_5) = \neg(\sum^*L_2L_2^*)$ (regular languages are closed under complement).
+
+5. Build FSM $M_6$ such that $L(M_6) = (L_2\sum^*)\cup \neg(\sum^*L_2L_2^*)$ (regular languages are closed under union).
+
+6. Build FSM $M_7$ such that $L(M_7) = L(M_6) - L(M_1)$ (regular languages are closed under difference).
+
+7. IF $L(M_7) == \emptyset$ THEN RETURN TRUE, ELSE RETURN FALSE (emptiness is decidable for regular languages).
+
+% --------------------------------- QUESTION 
+\subsection*{3.b}
+
+1. If $L$ is finite, then $D_L$ has at most the same finite amount of strings (each string in $L$ produces exactly one corresponding string in $D_L$), and since it's finite it's guaranteed to be regular ($D_L$ can be formed by a finite union of single strings, and each individual string is regular).
+
+2. If $L$ is infinite, then its minimal DFA must contain at least one circle that inclues an accepting state (else there would be no loop, and the amount of outputted strings would be finite), which means a substring generated by this circle can be pumped infinitely long, so $D_L$ cannot include a second identical string due to it having to wait infinitely long for the first string to be pumped, which makes $D_L$ non-regular.
+
+3. $L$'s finiteness is decidable. First construct a DFSM $M_1$ that accepts $L$, then convert it to a minimal DFSM $M_2$. Mark all states in $M_2$ that are reachable from the start state and are on a path to an accepting state.
+
+4. Examine the marked states and determine if there are any cycles in $M_2$. If there are, return FALSE. Else return TRUE.
+
+\end{document}
