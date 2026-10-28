@@ -36,10 +36,38 @@ Choose $q$ such that $xy^qz \not\in L:$
 
 $$s = xy^qz = (aba)^n(aba)^{3mq}(aba)^{3k-3m-n} = (aba)^{3(k+m(q-1))}$$
 
-Note that $s \in L, \: \forall q\geq0$. This is because regardless of $q$'s value, $aba$ will always be multiplied by a multiple of 3 in the end, due to the presence of 3 on one side of the multiplication of $aba$'s exponent, meaning $aba$'s exponent will always be a multiple of 3. The Pumping Lemma does work here, in fact we can derive the regular expression for $L$ since it is regular:
+Note that $s \in L, \: \forall q\geq0$. This is because regardless of $q$'s value, $aba$ will always be multiplied by a multiple of 3 in the end, due to the presence of 3 on one side of the multiplication of $aba$'s exponent, meaning $aba$'s exponent will always be a multiple of 3. Therefore the Pumping Lemma does not work here, in fact we can derive the regular expression for $L$ since it is regular:
 
 $$L = (abaabaaba)^*$$
 
+
+
+% --------------------------------- QUESTION 
+\subsection*{1.b}
+
+Assume $L$ is regular, then there exists a pumping length $k$ for $L$. We can choose arbitrary string $s = (01)^k(10)^k, \: |s| > k; s\in L$ since the number of $01$ and $10$ in $s$ are both $k$. 
+
+Observe all decompositions of $s = xyz$ such that $|x| \leq k$ and $|y| \geq 1$:
+
+\begin{align*}
+&x=(01)^n, \: n \geq 0\\
+&y=(01)^m, \: m\geq1, \: n+m \leq k\\
+&z=(01)^{k-m-n}(10)^k
+\end{align*}
+
+Choose $q$ such that $xy^qz \not\in L$:
+
+$$s=(01)^n(01)^{mq}(01)^{k-m-n}(10)^k = (01)^{k+m(q-1)}(10)^k$$
+
+If $q=0$, then $s=(01)^{k-m}(10)^k$. $s\in L$ because in every pair of $(10)$ there contains one $(01)$ (i.e. $01 \in 1010$), and in every pair of $(01)$ there exists one $(10)$ (i.e. $10 \in 0101$). 
+
+So if we have $(k-m)$ number of $(01)$ then inside there must exist $(k-m-1)$ number of $(10)$, and the count of $(10)$ is increased to $(k+k-m-1) = 2k-m-1$. 
+
+The reverse is true for $k$ number of $(10)$, since we can count $(k-m-1)$ number of $(10)$ inside the $(k-m)$ number of $(01)$, the count of $(10)$ is also $(k+k-m-1) = 2k -m -1$. Then we see the number of both $(10)$ and $(01)$ are actually the same regardless of their exponents, and the same exists for $q=2$. 
+
+So the pumping lemma fails. In fact, we can prove that $L$ is regular by giving its regular expression. The regular expression is trivial to produce since we know already that $\epsilon, 0, 1$ are already $\in L$ (vacuously true) and our previously testing gives the condition that $w\in L$ if it begins and ends by the same letter:
+
+$$L = \epsilon \cup 1 \cup 0 \cup 0(1\cup0)^*0 \cup 1(1\cup0)^*1$$
 
 
 
