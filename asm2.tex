@@ -24,7 +24,7 @@ $$L = \{w^3 | w \in (aba)^*\}$$
 
 Assume $L$ is regular, then there exists a pumping length $k$ for $L$. Let's choose $s = (aba)^{3k}$, $|s| \geq k$; $s \in L$ since $(aba)^{3k} \equiv ((aba)^{k})^3 \in L$.
 
-Observe all decompositions of $w=xyz$ such that $|x| \leq k$ and $|y| \geq 1$:
+Observe all decompositions of $w=xyz$ such that $|xy| \leq k$ and $|y| \geq 1$:
 
 \begin{align*}
 &x=(aba)^n, \: n \geq 0\\
@@ -32,11 +32,11 @@ Observe all decompositions of $w=xyz$ such that $|x| \leq k$ and $|y| \geq 1$:
 &z=(aba)^{3k-3m-n}
 \end{align*}
 
-Choose $q$ such that $xy^qz \not\in L:$
+Choose $q$ to obtain a new pumped string $s'=xy^qz$: 
 
-$$s = xy^qz = (aba)^n(aba)^{3mq}(aba)^{3k-3m-n} = (aba)^{3(k+m(q-1))}$$
+$$s' = xy^qz = (aba)^n(aba)^{3mq}(aba)^{3k-3m-n} = (aba)^{3(k+m(q-1))}$$
 
-Note that $s \in L, \: \forall q\geq0$. This is because regardless of $q$'s value, $aba$ will always be multiplied by a multiple of 3 in the end, due to the presence of 3 on one side of the multiplication of $aba$'s exponent, meaning $aba$'s exponent will always be a multiple of 3. Therefore the Pumping Lemma does not work here, in fact we can derive the regular expression for $L$ since it is regular:
+Note that $s' \in L, \: \forall q\geq0$. This is because regardless of $q$'s value, $aba$ will always be multiplied by a multiple of 3 in the end, due to the presence of 3 on one side of the multiplication of $aba$'s exponent, meaning $aba$'s exponent will always be a multiple of 3. Therefore the Pumping Lemma does not work here, in fact we can derive the regular expression for $L$ since it is regular. The regular expression can be trivially obtained since the only condition given in $L$ is a Kleene star of the substring $abaabaaba$:
 
 $$L = (abaabaaba)^*$$
 
@@ -45,30 +45,95 @@ $$L = (abaabaaba)^*$$
 % --------------------------------- QUESTION 
 \subsection*{1.b}
 
-Assume $L$ is regular, then there exists a pumping length $k$ for $L$. We can choose arbitrary string $s = (01)^k(10)^k, \: |s| > k; s\in L$ since the number of $01$ and $10$ in $s$ are both $k$. 
+Assume $L$ is regular, then there exists a pumping length $k$ for $L$. We can choose arbitrary string $s = 0^k 1^k 0^k, \: |s| > k; s \in L$ since the number of $01$ and $10$ in $s$ are both 1.
 
-Observe all decompositions of $s = xyz$ such that $|x| \leq k$ and $|y| \geq 1$:
+Observe all decompositions of $s = xyz$ such that $|xy| \leq k$ and $|y| \geq 1$:
 
 \begin{align*}
-&x=(01)^n, \: n \geq 0\\
-&y=(01)^m, \: m\geq1, \: n+m \leq k\\
-&z=(01)^{k-m-n}(10)^k
+&x = 0^n, \: n \geq 0\\
+&y = 0^m, \: m \geq 1, \: n+m \leq k\\
+&z = 0^{k-m-n} 1^k 0^k
 \end{align*}
 
-Choose $q$ such that $xy^qz \not\in L$:
+Choose $q$ to obtain a new pumped string $s'=xy^qz$: 
 
-$$s=(01)^n(01)^{mq}(01)^{k-m-n}(10)^k = (01)^{k+m(q-1)}(10)^k$$
+$$s' = 0^n (0^m)^q 0^{k-m-n} 1^k 0^k = 0^{k+m(q-1)} 1^k 0^k$$
 
-If $q=0$, then $s=(01)^{k-m}(10)^k$. $s\in L$ because in every pair of $(10)$ there contains one $(01)$ (i.e. $01 \in 1010$), and in every pair of $(01)$ there exists one $(10)$ (i.e. $10 \in 0101$). 
+If $q' = 0$, then $s = 0^{k-m} 1^k 0^k$. As long as $k - m > 0$, the string still starts with a block of 0, goes to a block of 1, and ends with a block of 0. The count of $01$ is still 1 and the count of $10$ is still 1, so the number of $01$ and $10$ are both 1 and $s' \in L$.
 
-So if we have $(k-m)$ number of $(01)$ then inside there must exist $(k-m-1)$ number of $(10)$, and the count of $(10)$ is increased to $(k+k-m-1) = 2k-m-1$. 
+If $q = 2$, then $s' = 0^{k+m} 1^k 0^k$. The count of $01$ and $10$ are still both 1 for the exact same reason, so $s' \in L$.
 
-The reverse is true for $k$ number of $(10)$, since we can count $(k-m-1)$ number of $(10)$ inside the $(k-m)$ number of $(01)$, the count of $(10)$ is also $(k+k-m-1) = 2k -m -1$. Then we see the number of both $(10)$ and $(01)$ are actually the same regardless of their exponents, and the same exists for $q=2$. 
-
-So the pumping lemma fails. In fact, we can prove that $L$ is regular by giving its regular expression. The regular expression is trivial to produce since we know already that $\epsilon, 0, 1$ are already $\in L$ (vacuously true) and our previously testing gives the condition that $w\in L$ if it begins and ends by the same letter:
+So the pumping lemma fails. In fact, we can prove that $L$ is regular by giving its regular expression. The regular expression is trivial to produce since we know already that $\epsilon, 0, 1$ are already $\in L$ (vacuously true) and our previous testing gives the condition that $w \in L$ if it begins and ends by the same letter:
 
 $$L = \epsilon \cup 1 \cup 0 \cup 0(1\cup0)^*0 \cup 1(1\cup0)^*1$$
 
+
+
+% --------------------------------- QUESTION 
+\subsection*{1.c}
+
+Assume $L$ is regular, then there exists a pumping length $k$ for $L$. We can choose an arbitrary string $s = a^k b^{2k} a^k, \: |s| \geq k; s \in L$ since the number of $a$ and $b$ in $s$ are both $2k$, and we can apply the anti-distributive law to $s^R$ such that $s^R = (a^k b^{2k} a^k)^R = (a^k)^R (b^{2k})^R (a^k)^R = a^k b^{2k} a^k = s$.
+
+Observe all decompositions of $s = xyz$ such that $|xy| \leq k$ and $|y| \geq 1$:
+
+\begin{align*}
+&x = a^n, \: n \geq 0\\
+&y = a^m, \: m \geq 1, \: n+m \leq k\\
+&z = a^{k-m-n} b^{2k} a^k
+\end{align*}
+
+Choose $q$ to obtain a new pumped string $s'=xy^qz$: 
+
+$$s' = xy^qz = a^n (a^m)^q a^{k-m-n} b^{2k} a^k = a^{k+m(q-1)} b^{2k} a^k$$
+
+If $q = 0$, $s' = a^{k-m} b^{2k} a^k$. The number of $a$ in $s'$ is $(k-m) + k = 2k-m$, while the number of $b$ is $2k$. Since $m \geq 1$, $2k-m \neq 2k$, which causes the count of $a$ and $b$ to be different. Furthermore, $(s')^R = a^k b^{2k} a^{k-m} \neq s'$, so $s'$ is no longer a palindrome. Thus, $s' \not \in L$.
+
+If $q = 2$, $s' = a^{k+m} b^{2k} a^k$. The number of $a$ in $s'$ is $(k+m) + k = 2k+m$, while the number of $b$ is $2k$. Since $m \geq 1$, $2k+m \neq 2k$, which causes the count of $a$ and $b$ to be different. Furthermore, $(s')^R = a^k b^{2k} a^{k+m} \neq s'$, so $s'$ is no longer a palindrome. Thus, $s' \not \in L$.
+
+The pumping lemma does not hold here since $s' \not \in L$ once we pump, so we can prove by contradiction that $L$ cannot be regular. The next step is to prove whether $L$ is context-free or not, and we will still use the Pumping Lemma for this, except it's Pumping Lemma for context-free languages. 
+
+Assume $L$ is context-free, then there exists a pumping length $k$ for $L$. We can choose an arbitrary string $s = a^k b^{2k} a^k, \: |s| \geq k; s \in L$ since the number of $a$ and $b$ in $s$ are both $2k$, and we can apply the anti-distributive law to $s^R$ such that $s^R = (a^k b^{2k} a^k)^R = (a^k)^R (b^{2k})^R (a^k)^R = a^k b^{2k} a^k = s$.
+
+Observe all cases of decompositions of $s = uvxyz$ such that $|vxy| \leq k$ and $|vy| \geq 1$:
+
+\begin{itemize}
+
+\item Case 1: $vxy$ appears entirely within a sequence of $a$'s. Then pumping $v\&y$ both $q$ times (i.e. $q=0$ or $q=2$) will only produce more $a$', resulting in more $a$'s than $b$'s since the sequence of $b$ remains untouched, effectively violating the condition that $\#_a(s) = \#_b(s)$, so $s \not \in L$.
+
+\itme Case 2: $vxy$ appears entirely within the sequence of $b$'s. Then pumping $v\&y$ both $q$ times ($q > 0$) will only produce more $b$', resulting in less $a$'s than $b$'s since the sequences of $a$ remain untouched, effectively violating the condition that $\#_a(s) = \#_b(s)$, so $s \not \in L$.
+
+\item Case 3: $vxy$ overlap in 1 sequence of $a$'s and 1 sequence of $b$'s. Since $|vxy|$ has a maximum size of $k$ per definition of the pumping lemma, it's impossible for $|vxy|$ to overlap in both sequences of $a$'s and 1 sequence of $b$'s since $|b| \geq 2k$ already. Then, pumping $v\&y$ both $q$ times ($q > 0$) will only produce an increased amount of $a$ and $b$ in the sequences of $a$'s and $b$'s that $|vxy|$ is in, but leaves the other sequence of $a$'s untouched, creating 
+
+\end{itemize}
+
+Above are all cases in which $s$ can be decomposed into. Since pumping a restricted sections of $s$ in all cases force $s \not \in L$, $L$ cannot be context-free. 
+
+% --------------------------------- QUESTION 
+\subsection*{1.d}
+
+Assume $L$ is regular, then there exists a pumping length $k$ for $L$. We can choose arbitrary string $s = a^kb^k, \: |s| > k; s \in L$ since we can choose $x = a^k$ and $y=b^k$ and the number of $a$ in $x$ is equal to the number of $b$ in $y$ since they're both length $k$. 
+
+Observe all decompositions of $s = xyz$ such that $|xy| \leq k$ and $|y| \geq 1$:
+
+\begin{align*}
+&x = a^n, \: n \geq 0\\
+&y = b^m, \: m \geq 1, \: n+m \leq k\\
+&z = a^{k-m-n} b^k
+\end{align*}
+
+Choose $q$ to obtain a new pumped string $s' = xy^qz$:
+
+$$s' = a^{k+m(q-1)} b^k$$
+
+When $q=0, s' = a^{k-m}b^k$. Since the sequence of $a$'s is guaranteed to be shorter than the sequence of $b$'s, we can actually select substring $x$ to cover the entire sequence of $a$'s and also a certain section of the $b$ sequence, denoting the length of the $b$ sequence covered by $x$ to be $t, t < k$, resulting in $x = a^{k-m+t}$.Then $y$ is forced to be covering the remainder of $s'$ which is $b^{k-t}$. The value $t$ is chosen in a way such that since we've incorporated a certain number of $b$ from $y$ into $x$, originally $\#_a(x) < \#_b(y)$, but after the incorporation the number of $b$ from $y$ is reduced, resulting in a balanced $\#_a(x) = \#_b(y)$.
+
+The same thing happens for any arbitrary number of $q, q \not = 1$ (there would be no pumping if $q=1$), so regardless of any pumping, $s' \in L$. This means that the pumping lemma has failed to prove $L$ to be not regular. 
+
+In fact, we can use the exact same shifting technique to prove that $L$ is regular. If inside an arbitrary string $w$ where $\#_a(x) \not = \#_b(y)$, then for every right-shift performed by $x$ (to incorporate the left-most letter of $y$), or every left-shift performed by $y$, the difference between $\#_a(x)$ and $\#_b(y)$ will shift by 1, eventually reaching a balance of 0.
+
+Therefore, the regular expression for the regular language $L$ is simply:
+
+$$(a+b)^*$$
 
 
 
